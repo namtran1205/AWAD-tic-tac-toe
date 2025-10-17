@@ -1,0 +1,34 @@
+.square {
+  width: 80px;
+  height: 80px;
+  font-size: 2rem;
+  font-weight: bold;
+  border: 2px solid #757575;
+  margin-top: -1px;
+  margin-left: -1px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.square:hover {
+  background-color: #e0e0e0;
+}
+
+.square.winning-square,
+.square.winning-square:hover {
+  background-color: #c8e6c9;
+}
+
+.winning-square {
+  background-color: #c8e6c9;
+}
+
+@media (min-width: 600px) {
+  .square {
+    width: 100px;
+    height: 100px;
+  }
+}

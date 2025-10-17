@@ -1,0 +1,49 @@
+.game {
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 5px;
+    overflow-y: auto;
+    padding-top: 2px;
+    margin-top: 2px;
+}
+
+.move-count {
+  margin-bottom: 8px;
+  margin-top: 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.scores, .ai-metrics {
+  margin-bottom: 8px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.difficulty-select {
+  padding: 8px;
+}
+
+.new-game-button, .sort-button {
+  padding: 8px;
+}
+
+.move-history {
+  margin-top: 16px;
+  height: 300px; /* cố định chiều cao */
+  overflow-y: auto; /* cuộn dọc khi nội dung vượt */
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.move-history-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.move-history-item {
+  font-size: 0.9rem;
+}
