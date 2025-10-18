@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {Box, Button, Typography} from '@mui/material';
+import {Box, Button, Typography, FormControlLabel, Switch} from '@mui/material';
 import './Game.css';
 import Board from './Board';
 import { calculateWinner } from '../utils/gameLogic';
@@ -200,19 +200,16 @@ function Game() {
     };
 
     return (
-        <Box display="flex" flexDirection="row" justifyContent="center" width="100%">
+        <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="flex-start" width="100%" p={1}>
             {/* Nội dung chính được phóng to bằng flex lớn hơn */}
-            <Box className="game" flex={4} minWidth="420px" p={2} align="center">
-                <Typography variant="h6" className="move-count">
-                    You are at move #{game.history.length - 1}
-                </Typography>
+            <Box className="game" flex={4} minWidth="420px" p={1} align="center">
                 <Box 
                     display="flex" 
                     maxWidth={250}
                     align="center"
                     justifyContent="space-around" 
-                    my={3} 
-                    p={2} 
+                    my={1} 
+                    p={1.5} 
                     bgcolor="#f5f5f5" 
                     borderRadius={2}
                 >
@@ -252,7 +249,6 @@ function Game() {
                 <Box className="controls" display="flex" justifyContent="center" my={2}>
                     <Button
                         variant={game.difficulty === 'easy' ? "contained" : "outlined"}
-                        color="primary"
                         onClick={() => {
                             setGame(prev => ({ ...prev, difficulty: 'easy' }));
                             resetGame();
@@ -274,7 +270,7 @@ function Game() {
                     </Button>
                 </Box>
                 <Board board={game.board} handleClick={handleClick} winningCombo={game.winningCombo} />
-                <Box display="flex" justifyContent="center" mt={2}>
+                <Box display="flex" justifyContent="center" mt={2} mb={1.5}>
                     <Button 
                         variant="contained"
                         color="secondary"
@@ -285,24 +281,30 @@ function Game() {
                 </Box>
             </Box>
 
-            <Box ml={4} p={5} className="game" flex={2} align="center">              
-                <Typography variant="h6" className="move-history-title">
+            <Box ml={4} p={3} className="game" flex={2} align="center">              
+                <Typography variant="h4" className="move-history-title">
                         Move History
                     </Typography>
+
+                    <FormControlLabel label={game.moveSortAsc ? "Ascending" : "Descending"}
+                    control={
+                        <Switch
+                            checked={game.moveSortAsc}
+                            onChange={toggleMoveSort}
+                            color="primary"
+                        />
+                    }
+                    />
+
                 <Box className="move-history">
                     {getMoveHistory()}
                 </Box>
 
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={toggleMoveSort}
-                    className="sort-button"
-                    boxShadow={3} borderRadius={2}
-                    sx={{ mt: 2 }}
-                >
-                    Toggle Sort: {game.moveSortAsc ? 'Ascending ▲' : 'Descending ▼'}
-                </Button>
+                
+                <Typography variant="h6" className="move-count" sx={{ mt: 2 }}>
+                    You are at move #{game.history.length - 1}
+                </Typography>
+
             </Box>
         </Box>
     );

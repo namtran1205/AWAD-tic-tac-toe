@@ -8,39 +8,46 @@ body {
 
 /* Container phủ đủ viewport và canh giữa */
 .app-container {
-  min-height: 90dvh;                 /* chuẩn mới, tránh thanh URL mobile */
+  min-height: 90dvh;                 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;             /* canh giữa theo chiều dọc để “ngắn” hơn */
+
 }
 
 /* Card trắng — rộng hơn, gọn hơn */
 .app-card {
-  width: 100%;
-  max-width: 900px;                    /* <-- tăng bề rộng card trên desktop */
+  width: min(100%, 1400px);;
+  max-width: 100%;
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 6px 24px rgba(0,0,0,.06);
+  margin: 0 16px; /* giữ khoảng cách với mép trên màn nhỏ */
+  padding: 20px;
+}
+
+/* và nếu muốn ghi đè media query hiện tại, tăng giá trị ở desktop */
+@media (min-width: 1024px) {
+  .app-card { max-width: 1400px; padding: 28px 32px; }
 }
 
 /* Tiêu đề */
 .app-title {
-  margin: 0 0 4px;
   font-size: clamp(22px, 3.4vw, 32px);
   text-align: center;
 }
 
 /* --- Responsive: Tablet --- */
 @media (min-width: 768px) {
-  .app-card { padding: 24px; }
+  .app-card { padding: 20px; }
 }
 
 /* --- Responsive: Laptop/Desktop --- */
 @media (min-width: 1024px) {
 
-  .app-container { padding: 15px; gap: 10px; }
-  .app-card { max-width: 980px; padding: 20px 25px; }  /* card rộng thêm chút */
+  .app-container { padding: 10px; gap: 5px; }
+  .app-card { max-width: 980px; padding: 15px 25px; }  /* card rộng thêm chút */
 }
 
 /* Nếu màn hình không quá cao (laptop 720–900px), giảm kích thước ô để tổng chiều cao ngắn lại */

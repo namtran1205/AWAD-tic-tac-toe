@@ -20,7 +20,7 @@
 .controls {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 6px;
 }
 
 .difficulty-select {
@@ -28,7 +28,7 @@
 }
 
 .new-game-button, .sort-button {
-  padding: 8px;
+  padding: 2px;
 }
 
 .move-history {
