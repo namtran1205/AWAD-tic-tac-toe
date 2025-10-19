@@ -5,15 +5,16 @@ import Board from './Board';
 import { calculateWinner } from '../utils/gameLogic';
 import { findBestMove } from '../utils/ai';
 
-function getPositionFromIndex(index) {
-    const row = Math.floor(index / 3) + 1;
-    const col = (index % 3) + 1;
+function getPositionFromIndex(index, length) {
+    const row = Math.floor(index / length) + 1;
+    const col = (index % length) + 1;
     console.log("Get position from index:", index, "->", row, col);
     return `${row}, ${col}`;
 }
 
 function Game() {
     const [game, setGame] = useState({
+        length: 3,
         board: Array(9).fill(null),
         isXNext: true,
         winner: null,
@@ -78,11 +79,12 @@ function Game() {
                 newBoard[move] = ai;
                 return {
                     ...prev,
+                    length: prev.length,
                     board: newBoard,
                     isXNext: true,
                     history: [
                         ...prev.history,
-                        { board: newBoard, move, player: ai, position: getPositionFromIndex(move) },
+                        { board: newBoard, move, player: ai, position: getPositionFromIndex(move, prev.length) },
                     ],
 
                 };
@@ -103,11 +105,12 @@ function Game() {
         newBoard[index] = player;
         setGame(prev => ({
             ...prev,
+            length: prev.length,
             board: newBoard,
             isXNext: !prev.isXNext,
             history: [
                 ...prev.history,
-                { board: newBoard, move: index, player: player, position: getPositionFromIndex(index) },
+                { board: newBoard, move: index, player: player, position: getPositionFromIndex(index, prev.length) },
             ],  
         }));
     }
@@ -115,6 +118,7 @@ function Game() {
     const resetGame = () => {
         setGame(prev => ({
             ...prev,
+            length: 3,
             board: Array(9).fill(null),
             isXNext: true,
             winner: null,
@@ -280,7 +284,7 @@ function Game() {
                         Hard
                     </Button>
                 </Box>
-                <Board board={game.board} handleClick={handleClick} winningCombo={game.winningCombo} />
+                <Board board={game.board} handleClick={handleClick} winningCombo={game.winningCombo} size={game.length}/>
                 <Box display="flex" justifyContent="center" mt={2} mb={1}>
                     <Button 
                         variant="contained"

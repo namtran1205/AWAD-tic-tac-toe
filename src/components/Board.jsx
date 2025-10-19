@@ -1,28 +1,31 @@
 import Square from "./Square";
 import "./Board.css";
 
-function Board({board, handleClick, winningCombo}) {
-    //console.log("Winning Combo in Board:", winningCombo);
-    const rows = [0, 1, 2];
-    return (
-        <div>
-            {rows.map(row => (
-                <div key={row} className="board-row">
-                    {board.slice(row * 3, row * 3 + 3).map((value, col) => {
-                        const index = row * 3 + col;
-                        return (
-                            <Square 
-                                key={index} 
-                                value={value} 
-                                handleClick={() => handleClick(index)}
-                                isWinningSquare={winningCombo && winningCombo.includes(index)}
-                            />
-                        );
-                    })}
-                </div>
-            ))}
-        </div>
-    );
+function Board({ board, handleClick, winningCombo, size }) {
+    //console.log("Board size:", size);
+    const rows = [];
+
+    for (let r = 0; r < size; r++) {
+        const cols = [];
+        for (let c = 0; c < size; c++) {
+            const index = r * size + c;
+            cols.push(
+                <Square
+                    key={index}
+                    value={board[index]}
+                    handleClick={() => handleClick(index)}
+                    isWinningSquare={Array.isArray(winningCombo) && winningCombo.includes(index)}
+                />
+            );
+        }
+        rows.push(
+            <div key={r} className="board-row">
+                {cols}
+            </div>
+        );
+    }
+
+    return <div>{rows}</div>;
 }
 
 export default Board;
