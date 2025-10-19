@@ -199,17 +199,28 @@ function Game() {
         });
     };
 
+    const getStatusMessage = () => {
+        if (game.winner) {
+            return game.winner === 'Draw' ? "It's a Draw!" : (game.winner === player ? "You Win!" : "AI Wins!");
+        } else {
+            return game.isXNext ? "Your Turn (X)" : "AI's Turn (O)";
+        }
+    }
+
     return (
-        <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="flex-start" width="100%" p={1}>
+        <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="flex-start" width="100%">
             {/* Nội dung chính được phóng to bằng flex lớn hơn */}
             <Box className="game" flex={4} minWidth="420px" p={1} align="center">
+                <Typography variant="h5" align="center" gutterBottom>
+                    {getStatusMessage()}
+                </Typography>
                 <Box 
                     display="flex" 
                     maxWidth={250}
                     align="center"
                     justifyContent="space-around" 
                     my={1} 
-                    p={1.5} 
+                    p={1.2} 
                     bgcolor="#f5f5f5" 
                     borderRadius={2}
                 >
@@ -246,7 +257,7 @@ function Game() {
                         </Typography>
                     </Box>
                 </Box>
-                <Box className="controls" display="flex" justifyContent="center" my={2}>
+                <Box className="controls" display="flex" justifyContent="center" my={1.5}>
                     <Button
                         variant={game.difficulty === 'easy' ? "contained" : "outlined"}
                         onClick={() => {
@@ -270,7 +281,7 @@ function Game() {
                     </Button>
                 </Box>
                 <Board board={game.board} handleClick={handleClick} winningCombo={game.winningCombo} />
-                <Box display="flex" justifyContent="center" mt={2} mb={1.5}>
+                <Box display="flex" justifyContent="center" mt={2} mb={1}>
                     <Button 
                         variant="contained"
                         color="secondary"
@@ -281,7 +292,7 @@ function Game() {
                 </Box>
             </Box>
 
-            <Box ml={4} p={3} className="game" flex={2} align="center">              
+            <Box ml={4} p={7} className="game" flex={2} align="center">              
                 <Typography variant="h4" className="move-history-title">
                         Move History
                     </Typography>

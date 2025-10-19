@@ -22,9 +22,9 @@ body {
   max-width: 100%;
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 6px 24px rgba(0,0,0,.06);
-  margin: 0 16px; /* giữ khoảng cách với mép trên màn nhỏ */
-  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+  margin: 0 12px; /* giữ khoảng cách với mép trên màn nhỏ */
+  padding: 12px;
 }
 
 /* và nếu muốn ghi đè media query hiện tại, tăng giá trị ở desktop */
@@ -34,7 +34,7 @@ body {
 
 /* Tiêu đề */
 .app-title {
-  font-size: clamp(22px, 3.4vw, 32px);
+  font-size: clamp(20px, 3.4vw, 32px);
   text-align: center;
 }
 
