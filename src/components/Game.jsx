@@ -292,7 +292,7 @@ function Game() {
                 </Box>
             </Box>
 
-            <Box ml={4} p={7} className="game" flex={2} align="center">              
+            <Box ml={4} p={4} className="game" flex={2} align="center">              
                 <Typography variant="h4" className="move-history-title">
                         Move History
                     </Typography>
