@@ -24,6 +24,7 @@ function Game() {
         scores: { player: 0, ai: 0, draws: 0, streak: 0 },
         history: [{ board: Array(9).fill(null), move: null, player: null, position: null }],
         moveSortAsc: true,
+        currentMove: 0,
     });
 
     const player = 'X';
@@ -103,16 +104,17 @@ function Game() {
         if (game.board[index] || game.winner || !game.isXNext) return;
         const newBoard = game.board.slice();
         newBoard[index] = player;
-        setGame(prev => ({
-            ...prev,
-            length: prev.length,
-            board: newBoard,
-            isXNext: !prev.isXNext,
-            history: [
-                ...prev.history,
-                { board: newBoard, move: index, player: player, position: getPositionFromIndex(index, prev.length) },
-            ],  
-        }));
+        setGame(prev => {
+            const newEntry = { board: newBoard, move: index, player: player, position: getPositionFromIndex(index, prev.length) };
+            return {
+                ...prev,
+                length: prev.length,
+                board: newBoard,
+                isXNext: false,
+                history: [...prev.history, newEntry],
+                currentMove: prev.history.length,
+            };
+        });
     }
 
     const resetGame = () => {
@@ -125,8 +127,33 @@ function Game() {
             winningCombo: null,
             gameState: 'playing',
             history: [{ board: Array(9).fill(null), move: null, player: null, position: null }],
+            currentMove: 0,
         }));
     }
+
+    const jumpTo = (moveIndex) => {
+        setGame(prev => {
+            const entry = prev.history[moveIndex];
+            const boardAt = entry?.board ? entry.board.slice() : Array(9).fill(null);
+            const { winner, winningCombo } = calculateWinner(boardAt);
+            const newGameState =
+                winner === 'Draw' ? 'draw' :
+                winner === 'X' ? 'player-won' :
+                winner === 'O' ? 'ai-won' :
+                'playing';
+            const newHistory = prev.history.slice(0, moveIndex + 1);
+            return {
+                ...prev,
+                board: boardAt,
+                isXNext: (moveIndex % 2) === 0,
+                winner,
+                winningCombo,
+                gameState: newGameState,
+                currentMove: moveIndex,
+                history: newHistory,
+            };
+        });
+    };
 
     const toggleMoveSort = () => {
     setGame((prev) => ({ ...prev, moveSortAsc: !prev.moveSortAsc }));
@@ -140,7 +167,7 @@ function Game() {
 
         return sortedHistory.map((step, index) => {
             const moveIndex = game.moveSortAsc ? index + 1 : moves.length - index;
-
+            const isCurrent = moveIndex === game.currentMove;
             // parse position which may be stored as "row, col" string or as [row, col]
             let desc;
             if (step && step.player) {
@@ -158,13 +185,13 @@ function Game() {
                 desc = 'Game start';
             }
 
-            const isCurrent = moveIndex === game.history.length - 1;
             const playerColor = step && step.player === 'X' ? '#4caf50' : '#f44336';
 
             return (
                 <Box
                     key={moveIndex}
                     className="move-history-item"
+                    onClick={() => jumpTo(moveIndex)}
                     sx={{
                         backgroundColor: isCurrent ? '#fff9c4' : '#f5f5f5',
                         borderLeft: `6px solid ${step && step.player ? playerColor : '#bbb'}`,
@@ -298,8 +325,8 @@ function Game() {
 
             <Box ml={4} p={4} className="game" flex={2} align="center">              
                 <Typography variant="h4" className="move-history-title">
-                        Move History
-                    </Typography>
+                    Move History
+                </Typography>
 
                     <FormControlLabel label={game.moveSortAsc ? "Ascending" : "Descending"}
                     control={
